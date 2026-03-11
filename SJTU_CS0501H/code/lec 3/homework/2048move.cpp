@@ -38,14 +38,23 @@ int compressLeft(int arr[], int len) {
     // unittest pass
 
     // TODO: 第二步 - 合并相邻的相同元素
-    for (int i = 0; i < len - 1; i++) {
-        if (arr[i] == 0) continue;
-        if (arr[i] == arr[i + 1]) {
-            arr[i] *= 2;
-            score += arr[i];
-            arr[i + 1] = 0;
+    for (int idx = 0; idx < len - 1; idx++) {
+        if (arr[idx] == 0) continue;
+        for (int i = idx + 1; i < len; i++) {
+            if (arr[i] == 0) continue;
+            if (arr[i] != arr[idx]) {
+                idx = i - 1;
+                break;
+            } else {
+                arr[idx] *= 2;
+                arr[i] = 0;
+                score += arr[idx];
+                idx = i;
+                break;
+            }
         }
     }
+
     // TODO: 第三步 - 再次将非零元素移到左边
     __helper(arr, 4);
     return score;
