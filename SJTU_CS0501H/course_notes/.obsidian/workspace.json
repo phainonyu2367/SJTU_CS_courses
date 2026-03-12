@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "lecture_notes/Lecture 2.Linear List.md",
+                "file": "lecture_notes/Lecture 1.Introduction.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Lecture 2.Linear List"
+              "title": "Lecture 1.Introduction"
             }
           }
         ]
@@ -182,8 +182,8 @@
   },
   "active": "3040f97e8207d252",
   "lastOpenFiles": [
-    "lecture_notes/Lecture 1.Introduction.md",
     "lecture_notes/Lecture 2.Linear List.md",
+    "lecture_notes/Lecture 1.Introduction.md",
     "extention/stack and heap.md",
     "lecture_notes/Lecture 0.Overview.md",
     "draft.md",

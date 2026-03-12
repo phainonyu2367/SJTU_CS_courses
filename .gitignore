@@ -1,0 +1,5 @@
+*.exe
+/.vscode
+.obsidian
+*.json
+./SJTU_CS0501H/course_notes/.obsidian/workspace.json
