@@ -20,13 +20,13 @@ class SLList {
         SLList() {
             head = new Node(-1, -1, nullptr);
             tail = head;
-        }
+        } 
 
         void addLast(double c, int e) {
             if (c == 0) return;
             tail->next = new Node(c, e, nullptr);
             tail = tail->next;
-        }
+        } // 时间复杂度O(1)， 空间复杂度O(1)
 
         ~SLList() {
             Node* cur; Node* temp;
@@ -36,7 +36,9 @@ class SLList {
                 delete temp;
                 temp = cur;
             }
-        }
+        } 
+        // 时间复杂度O(n)
+        // 空间复杂度O(1)
 
         SLList(const SLList& lst) {
             head = new Node(0, -1, nullptr);
@@ -46,7 +48,9 @@ class SLList {
                 this->addLast(cur->coef, cur->exp);
                 cur = cur->next;
             }
-        }
+        } 
+        // 时间复杂度O(n)
+        // 空间复杂度O(1)
 
         SLList& operator=(const SLList& lst) {
 
@@ -68,7 +72,9 @@ class SLList {
                 cur = cur->next;
             }
             return *this;
-        }
+        } 
+        // 时间复杂度O(n)
+        // 空间复杂度O(1)
 };
 
 // phase 2: test & main helper method
@@ -82,7 +88,9 @@ void dispList(SLList& lst) {
         cur = cur->next;
     }
     std::cout << std::endl;
-}
+} 
+// 时间复杂度O(n): 一个O(n)级的recursion
+// 空间复杂度O(1)：一个临时变量
 
 SLList polySum(SLList& lst1, SLList& lst2);
 
@@ -110,9 +118,9 @@ int main() {
 
 SLList polySum(SLList& lst1, SLList& lst2) {
     SLList ans;
-    Node* ptr1; Node* ptr2;
+    Node* ptr1; Node* ptr2; // O(1)
     ptr1 = lst1.head->next; ptr2 = lst2.head->next;
-    while (!(ptr1 == nullptr && ptr2 == nullptr)) {
+    while (!(ptr1 == nullptr && ptr2 == nullptr)) { //O(N)
         if (ptr1 == nullptr || ptr1->exp < ptr2->exp) {
             ans.addLast(ptr2->coef, ptr2->exp);
             ptr2 = ptr2->next;
@@ -128,4 +136,6 @@ SLList polySum(SLList& lst1, SLList& lst2) {
         ptr2 = ptr2->next;
     }
     return ans;
-}
+} 
+// 时间复杂度O(n)：一个O(n)级别的recursion
+// 空间复杂度O(1)：三个常数级的临时变量创建
