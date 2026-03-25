@@ -142,6 +142,52 @@ void moveAndShrink(int dir) {
     dequeue();
 }
 
+// 辅助函数，用于判断当前方向是否可以走
+int _checkAvailablity(int dir) {
+    /* 返回三种状态
+        0: 当前方向没有问题
+        -1: 当前方向绝对不能走
+        1: 当前方向会撞上负食物（有商量余地）
+    */
+    int nextX = getSnakeBodyX(0) + dx[dir];
+    int nextY = getSnakeBodyY(0) + dy[dir];
+
+    // 判断是否与自身碰撞
+    if (checkSelfCollision(nextX, nextY) == 1) return -1;
+
+    // 判断是否与墙壁碰撞，由于边界有墙壁，所以用墙壁统一判断
+    if (getMapCell(nextX, nextY) == 1) return -1;
+
+    // 判断是否是负食物
+    if (getMapCell(nextX, nextY) == 5) return 1;
+
+    return 0;
+}
+
+// 辅助函数，用于确定初始最佳方向，方便后续旋转操作
+int _getInitialDir(int m_dx, int m_dy) {
+    switch (m_dx) {
+        case 1:
+            switch (m_dy) {
+                case 1: return 0;
+                case -1: return 1;
+                case 0: return 1;
+            }
+        case 0: 
+            switch (m_dy) {
+                case 1: return 0;
+                case -1: return 2;
+        }
+        case -1:
+            switch (m_dy) {
+                case 1: return 3;
+                case -1: return 2;
+                case 0: return 3;
+            }
+
+    }
+}
+
 // 决策函数：返回蛇下一步的移动方向 (0-3)
 // 本次可通过简单策略实现，后续作业将要求更高级的寻路算法
 int decideDirection() {
@@ -151,17 +197,27 @@ int decideDirection() {
     }
 
     // TODO: 请实现你的决策逻辑
-    // 以下为示例：简单避障（随机选一个不会撞墙/撞自己的方向）
-    int headX = getSnakeX(0);
-    int headY = getSnakeY(0);
-    int bestDir = 1;
-    for (int d = 0; d < 4; d = d + 1) {
-        int nx = headX + dx[d];
-        int ny = headY + dy[d];
-        int cell = getMapCell(nx, ny);
-        if (cell != 1 && cell != 3 && cell != 2 && checkSelfCollision(nx, ny) == 0) {
-            bestDir = d;
+    int foodX = getFoodX();
+    int foodY = getFoodY();
+    int curX = getSnakeBodyX(0);
+    int curY = getSnakeBodyY(0);
+    int bestDir = 0;
+    
+    int m_dx = foodX - curX;
+    int m_dy = foodY - curY;
+
+    bestDir = _getInitialDir(m_dx, m_dy);
+    int temp = bestDir;
+    bool alter = true; // 用于判断前面是否有次优解存在
+    for (int i = 0; i < 4; i++) {
+        if (_checkAvailablity(temp) == 0) {
+            return temp;
+        } else if (_checkAvailablity(temp) == 1 && alter) {
+                alter = false;
+                bestDir = temp;
         }
     }
+    
+
     return bestDir;
 }
