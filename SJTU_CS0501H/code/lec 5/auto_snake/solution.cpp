@@ -166,27 +166,20 @@ int _checkAvailablity(int dir) {
 
 // 辅助函数，用于确定初始最佳方向，方便后续旋转操作
 int _getInitialDir(int m_dx, int m_dy) {
-    switch (m_dx) {
-        case 1:
-            switch (m_dy) {
-                case 1: return 0;
-                case -1: return 1;
-                case 0: return 1;
-            }
-        case 0: 
-            switch (m_dy) {
-                case 1: return 0;
-                case -1: return 2;
-        }
-        case -1:
-            switch (m_dy) {
-                case 1: return 3;
-                case -1: return 2;
-                case 0: return 3;
-            }
-
+    if (m_dx > 0) {
+        if (m_dy >= 0) return 1;
+        else return 1;
+    }
+    if (m_dx == 0) {
+        if (m_dy > 0) return 2;
+        if (m_dy < 0) return 0;
+    }
+    if (m_dx < 0) {
+        if (m_dy > 0) return 2;
+        else return 3;
     }
 }
+
 
 // 决策函数：返回蛇下一步的移动方向 (0-3)
 // 本次可通过简单策略实现，后续作业将要求更高级的寻路算法
@@ -199,8 +192,8 @@ int decideDirection() {
     // TODO: 请实现你的决策逻辑
     int foodX = getFoodX();
     int foodY = getFoodY();
-    int curX = getSnakeBodyX(0);
-    int curY = getSnakeBodyY(0);
+    int curX = getSnakeX(0);
+    int curY = getSnakeY(0);
     int bestDir = 0;
     
     int m_dx = foodX - curX;
@@ -216,8 +209,18 @@ int decideDirection() {
                 alter = false;
                 bestDir = temp;
         }
+
+        temp = (temp + 1) % 4;
     }
     
 
     return bestDir;
 }
+
+/* 关于BFS的思路:
+    以当前蛇头为起点，构建一颗三叉树，每一个格子的下三个可能的方向为该节点的三个子节点
+    每一层判断每一个子节点是否可以通行，如果可以通行就留下，不能通行就删除
+    可以通行的子节点用于构造树的下一层，继续检查下一层的每一个子节点的情况
+    以此类推，第一次找到终点即为最短路径，回溯该最短路径即为最优解。
+*/
+
