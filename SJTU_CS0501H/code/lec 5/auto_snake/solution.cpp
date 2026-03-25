@@ -168,7 +168,7 @@ int _checkAvailablity(int dir) {
 int _getInitialDir(int m_dx, int m_dy) {
     if (m_dx > 0) {
         if (m_dy >= 0) return 1;
-        else return 1;
+        else return 0;
     }
     if (m_dx == 0) {
         if (m_dy > 0) return 2;
