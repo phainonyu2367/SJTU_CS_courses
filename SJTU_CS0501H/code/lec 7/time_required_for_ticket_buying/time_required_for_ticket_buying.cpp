@@ -9,6 +9,13 @@ struct Customer {
 };
 
 int queueSimu() {
+    /*
+    Use real queue to simulate the ticket-buying process
+    @param
+    @return
+        - return the required time (second) for the target 
+          to get enough ticket
+    */
     int size, target;
     std::queue<Customer*> simuQueue;
     std::cin >> size >> target;
@@ -39,6 +46,13 @@ int queueSimu() {
 }
 
 int directProcess() {
+    /*
+    directly get the required time without simulate the process
+    @param
+    @return
+        - return the required time (second) for the target 
+          to get enough ticket
+    */
     int size, target, count = 0;
     std::cin >> size >> target;
     int* ticket = new int[size];
